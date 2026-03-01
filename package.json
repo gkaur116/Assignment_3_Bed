@@ -70,7 +70,6 @@
     "vary": "^1.1.2",
     "wrappy": "^1.0.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -85,5 +84,11 @@
   "bugs": {
     "url": "https://github.com/gkaur116/Assignment_3_Bed/issues"
   },
-  "homepage": "https://github.com/gkaur116/Assignment_3_Bed#readme"
+  "homepage": "https://github.com/gkaur116/Assignment_3_Bed#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
 }
