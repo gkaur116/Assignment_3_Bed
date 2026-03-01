@@ -25,16 +25,16 @@ interface ValidationOptions {
 export const validateRequest = (
     schemas: RequestSchemas,
     options: ValidationOptions = {}
-) => {
+): ((req: Request, res: Response, next: NextFunction) => void) => {
     // stripParams - Usually don't strip params as they're route-defined
-    const defaultOptions = {
+    const defaultOptions: ValidationOptions = {
         stripBody: true,
         stripQuery: true,
         stripParams: false,
         ...options,
     };
 
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (req: Request, res: Response, next: NextFunction): void => {
         try {
             const errors: string[] = [];
 
@@ -44,10 +44,10 @@ export const validateRequest = (
              */
             const validatePart = (
                 schema: ObjectSchema,
-                data: any,
+                data: Record<string, unknown>,
                 partName: string,
                 shouldStrip: boolean
-            ) => {
+            ): Record<string, unknown> => {
                 const { error, value } = schema.validate(data, {
                     abortEarly: false,
                     stripUnknown: shouldStrip,
@@ -71,7 +71,7 @@ export const validateRequest = (
                     schemas.body,
                     req.body,
                     "Body",
-                    defaultOptions.stripBody
+                    defaultOptions.stripBody ?? true
                 );
             }
 
@@ -80,8 +80,8 @@ export const validateRequest = (
                     schemas.params,
                     req.params,
                     "Params",
-                    defaultOptions.stripParams
-                );
+                    defaultOptions.stripParams ?? false
+                ) as Record<string, string>;
             }
 
             if (schemas.query) {
@@ -89,15 +89,16 @@ export const validateRequest = (
                     schemas.query,
                     req.query,
                     "Query",
-                    defaultOptions.stripQuery
-                );
+                    defaultOptions.stripQuery ?? true
+                ) as Record<string, string>;
             }
 
             // If there are any validation errors, return them
             if (errors.length > 0) {
-                return res.status(HTTP_STATUS.BAD_REQUEST).json({
+                res.status(HTTP_STATUS.BAD_REQUEST).json({
                     message: `Validation error: ${errors.join(", ")}`,
                 });
+                return;
             }
 
             next();

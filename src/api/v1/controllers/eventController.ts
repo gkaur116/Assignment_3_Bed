@@ -19,7 +19,7 @@ export const createEvent = async (
         const { name, date, capacity, registrationCount, status, category } =
             req.body;
 
-        const now = new Date().toISOString();
+        const now: string = new Date().toISOString();
 
         const eventData: Partial<Event> = {
             name,
@@ -32,8 +32,8 @@ export const createEvent = async (
             updatedAt: new Date(now),
         };
 
-        const id = await eventService.createEvent(eventData);
-        const event = await eventService.getEventById(id);
+        const id: string = await eventService.createEvent(eventData);
+        const event: Event | null = await eventService.getEventById(id);
 
         res.status(HTTP_STATUS.CREATED).json({
             message: "Event created",
@@ -57,7 +57,7 @@ export const getAllEvents = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        const events = await eventService.getAllEvents();
+        const events: Event[] = await eventService.getAllEvents();
         res.status(HTTP_STATUS.OK).json({
             message: "Events retrieved",
             count: events.length,
@@ -82,7 +82,7 @@ export const getEventById = async (
 ): Promise<void> => {
     try {
         const id: string = req.params["id"] as string;
-        const event = await eventService.getEventById(id);
+        const event: Event | null = await eventService.getEventById(id);
 
         if (!event) {
             res.status(HTTP_STATUS.NOT_FOUND).json({
@@ -114,7 +114,7 @@ export const updateEvent = async (
 ): Promise<void> => {
     try {
         const id: string = req.params["id"] as string;
-        const event = await eventService.getEventById(id);
+        const event: Event | null = await eventService.getEventById(id);
 
         if (!event) {
             res.status(HTTP_STATUS.NOT_FOUND).json({
@@ -128,7 +128,7 @@ export const updateEvent = async (
             updatedAt: new Date(),
         });
 
-        const updatedEvent = await eventService.getEventById(id);
+        const updatedEvent: Event | null = await eventService.getEventById(id);
         res.status(HTTP_STATUS.OK).json({
             message: "Event updated",
             data: updatedEvent,
@@ -152,7 +152,7 @@ export const deleteEvent = async (
 ): Promise<void> => {
     try {
         const id: string = req.params["id"] as string;
-        const event = await eventService.getEventById(id);
+        const event: Event | null = await eventService.getEventById(id);
 
         if (!event) {
             res.status(HTTP_STATUS.NOT_FOUND).json({
