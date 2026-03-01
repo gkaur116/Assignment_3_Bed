@@ -56,7 +56,7 @@ export const validateRequest = (
                 if (error) {
                     errors.push(
                         ...error.details.map(
-                            (detail) => `${partName}: ${detail.message}`
+                            (detail) => detail.message
                         )
                     );
                 } else if (shouldStrip) {
