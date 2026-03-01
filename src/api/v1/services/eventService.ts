@@ -35,10 +35,16 @@ export const getAllEvents = async (): Promise<Event[]> => {
         const snapshot = await firestoreRepository.getDocuments(
             EVENTS_COLLECTION
         );
-        return snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-        })) as Event[];
+        return snapshot.docs.map((doc) => {
+            const data = doc.data() as any;
+            return {
+                id: doc.id,
+                ...data,
+                date: data.date?.toDate?.()?.toISOString() ?? data.date,
+                createdAt: data.createdAt?.toDate?.()?.toISOString() ?? data.createdAt,
+                updatedAt: data.updatedAt?.toDate?.()?.toISOString() ?? data.updatedAt,
+            } as unknown as Event;
+        });
     } catch (error: unknown) {
         const errorMessage =
             error instanceof Error ? error.message : "Unknown error";
@@ -58,7 +64,14 @@ export const getEventById = async (id: string): Promise<Event | null> => {
             id
         );
         if (!doc) return null;
-        return { id: doc.id, ...doc.data() } as Event;
+        const data = doc.data() as any;
+        return {
+            id: doc.id,
+            ...data,
+            date: data.date?.toDate?.()?.toISOString() ?? data.date,
+            createdAt: data.createdAt?.toDate?.()?.toISOString() ?? data.createdAt,
+            updatedAt: data.updatedAt?.toDate?.()?.toISOString() ?? data.updatedAt,
+        } as unknown as Event;
     } catch (error: unknown) {
         const errorMessage =
             error instanceof Error ? error.message : "Unknown error";
