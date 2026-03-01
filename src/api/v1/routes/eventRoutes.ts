@@ -15,13 +15,25 @@ router.post(
 // Get all events
 router.get("/", eventController.getAllEvents);
 
-// Get event by ID
-router.get("/:id", eventController.getEventById);
+// Get event by ID - validates params
+router.get(
+    "/:id",
+    validateRequest(eventSchemas.getById),
+    eventController.getEventById
+);
 
-// Update event
-router.put("/:id", eventController.updateEvent);
+// Update event - validates params and body
+router.put(
+    "/:id",
+    validateRequest(eventSchemas.update),
+    eventController.updateEvent
+);
 
-// Delete event
-router.delete("/:id", eventController.deleteEvent);
+// Delete event - validates params
+router.delete(
+    "/:id",
+    validateRequest(eventSchemas.delete),
+    eventController.deleteEvent
+);
 
 export default router;
