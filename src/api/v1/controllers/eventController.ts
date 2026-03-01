@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import * as eventService from "../services/eventService";
-import { successResponse } from "../models/responseModel";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { Event } from "../models/eventModel";
 
@@ -36,9 +35,10 @@ export const createEvent = async (
         const id = await eventService.createEvent(eventData);
         const event = await eventService.getEventById(id);
 
-        res.status(HTTP_STATUS.CREATED).json(
-            successResponse(event, "Event created")
-        );
+        res.status(HTTP_STATUS.CREATED).json({
+            message: "Event created",
+            data: event,
+        });
     } catch (error: unknown) {
         next(error);
     }
@@ -91,9 +91,10 @@ export const getEventById = async (
             return;
         }
 
-        res.status(HTTP_STATUS.OK).json(
-            successResponse(event, "Event retrieved")
-        );
+        res.status(HTTP_STATUS.OK).json({
+            message: "Event retrieved",
+            data: event,
+        });
     } catch (error: unknown) {
         next(error);
     }
@@ -128,9 +129,10 @@ export const updateEvent = async (
         });
 
         const updatedEvent = await eventService.getEventById(id);
-        res.status(HTTP_STATUS.OK).json(
-            successResponse(updatedEvent, "Event updated")
-        );
+        res.status(HTTP_STATUS.OK).json({
+            message: "Event updated",
+            data: updatedEvent,
+        });
     } catch (error: unknown) {
         next(error);
     }
