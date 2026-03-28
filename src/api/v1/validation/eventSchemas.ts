@@ -1,3 +1,72 @@
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Event:
+ *       type: object
+ *       required:
+ *         - id
+ *         - name
+ *         - date
+ *         - capacity
+ *         - registrationCount
+ *         - status
+ *         - category
+ *         - createdAt
+ *         - updatedAt
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the event
+ *           example: "abc123"
+ *         name:
+ *           type: string
+ *           description: Name of the event
+ *           example: "Tech Conference 2025"
+ *         date:
+ *           type: string
+ *           format: date-time
+ *           description: Date and time of the event (must be in the future)
+ *           example: "2025-12-01T10:00:00Z"
+ *         capacity:
+ *           type: integer
+ *           minimum: 5
+ *           description: Maximum number of attendees
+ *           example: 100
+ *         registrationCount:
+ *           type: integer
+ *           minimum: 0
+ *           description: Current number of registrations
+ *           example: 42
+ *         status:
+ *           type: string
+ *           enum: [active, cancelled, completed]
+ *           description: Current status of the event
+ *           example: "active"
+ *         category:
+ *           type: string
+ *           enum: [conference, workshop, meetup, seminar, general]
+ *           description: Category of the event
+ *           example: "conference"
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Timestamp when the event was created
+ *           example: "2024-01-15T10:30:00Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Timestamp when the event was last updated
+ *           example: "2024-01-20T14:45:00Z"
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           description: Error message
+ *           example: "Validation error: name is required"
+ */
+
 import Joi from "joi";
 
 export const eventSchemas = {
