@@ -5,6 +5,7 @@ dotenv.config();
 
 import express, { Express } from "express";
 import { getHelmetConfig } from "../config/helmetConfig";
+import { getCorsConfig } from "../config/corsConfig";
 import healthRoutes from "./api/v1/routes/healthRoutes";
 import eventRoutes from "./api/v1/routes/eventRoutes";
 
@@ -13,6 +14,7 @@ const app: Express = express();
 
 // Security Middleware
 app.use(getHelmetConfig());
+app.use(getCorsConfig());
 
 // Middleware
 app.use(express.json());
