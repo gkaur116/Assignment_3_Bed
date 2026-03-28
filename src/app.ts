@@ -6,6 +6,7 @@ dotenv.config();
 import express, { Express } from "express";
 import { getHelmetConfig } from "../config/helmetConfig";
 import { getCorsConfig } from "../config/corsConfig";
+import setupSwagger from "../config/swagger";
 import healthRoutes from "./api/v1/routes/healthRoutes";
 import eventRoutes from "./api/v1/routes/eventRoutes";
 
@@ -22,5 +23,8 @@ app.use(express.json());
 // Define a route
 app.use("/api/v1", healthRoutes);
 app.use("/api/v1/events", eventRoutes);
+
+// Swagger documentation
+setupSwagger(app);
 
 export default app;
